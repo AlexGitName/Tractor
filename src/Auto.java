@@ -44,15 +44,15 @@ public class Auto extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             mouse = e.getPoint();
-            timer = new Timer(40, new ActionListener() {
+            timer = new Timer(100, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    anglRad++;
+                    anglRad = anglRad +0.005;
                     if (setX != mouse.x) {
-                        setX = mouse.x > setX ? setX + (mouse.x - setX) * anglRad / 100 : setX - (mouse.x + setX) * anglRad / 100;
+                        setX = mouse.x > setX ? setX + (mouse.x - setX) * anglRad  : setX - (-mouse.x + setX) * anglRad ;
                     }
                     if (setY != mouse.y) {
-                        setY = mouse.y > setY ? setY + (mouse.y - setY) * anglRad / 100 : setY - (mouse.y +setY) * anglRad / 100;
+                        setY = mouse.y > setY ? setY + (mouse.y - setY) * anglRad  : setY - (-mouse.y + setY) * anglRad ;
                     } else {
                         anglRad = 0;
                         timer.stop();
