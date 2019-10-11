@@ -10,11 +10,7 @@ public class Main {
             @Override
             public void run() {
                 new MainFram();
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
             }
         });
 

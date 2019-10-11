@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.Time;
 
 public class Auto extends JPanel {
@@ -9,12 +8,9 @@ public class Auto extends JPanel {
     Color color;
     private double setX;
     private double setY;
-    public int x, y;
-    private double INITIAL_X = setX;
-    private double INITIAL_X1 = 0;
-    private double INITIAL_Y = setY;
-    private double INITIAL_Y1 = 0;
     private Timer timer;
+    Point mouse;
+    double anglRad = 0;
 
 
     public double getSetX() {
@@ -44,30 +40,36 @@ public class Auto extends JPanel {
     }
 
 
-    public void moveA(double x, double y) {
-        timer = new Timer(40, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int postCentrX = getX() + 5;
-                int postCentrY = getY() + 5;
-                if (x!= postCentrX) {
-                    setX += x < postCentrX ? -1 : 1;
-                    setSetX(setX);
+    MouseListener mouseListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            mouse = e.getPoint();
+            timer = new Timer(40, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    anglRad++;
+                    if (setX != mouse.x) {
+                        setX = mouse.x > setX ? setX + (mouse.x - setX) * anglRad / 100 : setX - (mouse.x + setX) * anglRad / 100;
+                    }
+                    if (setY != mouse.y) {
+                        setY = mouse.y > setY ? setY + (mouse.y - setY) * anglRad / 100 : setY - (mouse.y +setY) * anglRad / 100;
+                    } else {
+                        anglRad = 0;
+                        timer.stop();
+
+                    }
+
+
+                    repaint();
                 }
-                if (y != postCentrY) {
-                    setY += y < postCentrX ? -1 : 1;
-                    setSetY(setY);
-                }
 
 
-                repaint();
-            }
+            });
 
+            timer.start();
 
-        });
-
-        timer.start();
-    }
+        }
+    };
 
 
     Auto(double setX, double setY, Color color) {
